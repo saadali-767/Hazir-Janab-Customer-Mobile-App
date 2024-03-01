@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "192538885655",
+    "firebase_url": "https://hazirjanab-8fe37-default-rtdb.firebaseio.com",
+    "project_id": "hazirjanab-8fe37",
+    "storage_bucket": "hazirjanab-8fe37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192538885655:android:323a62d829b039bb20e652",
+        "android_client_info": {
+          "package_name": "com.faizanahmed.janabhazir"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGy8NGnHEMBfGKVJAbjJPZaMsE1uK3BHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".signup_4"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/Toolbar"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:gravity="center"
+        android:elevation="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Register Account"
+            android:textSize="28dp"
+            android:textColor="@color/black"
+            android:includeFontPadding="false"/>
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/Toolbar"
+        android:layout_below="@+id/Toolbar"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:fontFamily="@font/poppins_medium"
+        android:text="3/3"
+        android:textSize="15dp"
+        android:includeFontPadding="false"/>
+
+    <RelativeLayout
+        android:id="@+id/Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Toolbar"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="10dp">
+
+        <TextView
+            android:id="@+id/tvLoginMsgPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="You're almost there! Just a few more details to go and your account will be fully set up."
+            android:textSize="18dp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/etFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvLoginMsgPrompt"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:background="@drawable/placeholder_grey_roundcorners"
+            android:hint="First Name"
+            android:textColorHint="#626263"
+            android:textSize="16dp"
+            android:includeFontPadding="false"/>
+
+        <EditText
+            android:id="@+id/etLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etFirstName"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingVertical="15dp"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/placeholder_grey_roundcorners"
+            android:hint="Last Name"
+            android:textColorHint="#626263"
+            android:textSize="16dp"
+            android:includeFontPadding="false"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etLastName"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingVertical="15dp"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/placeholder_grey_roundcorners"
+            android:hint="Email"
+            android:textColorHint="#626263"
+            android:textSize="16dp"
+            android:includeFontPadding="false"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etEmail"
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="#a9a9a9"
+            android:includeFontPadding="false">
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/placeholder_grey_roundcorners"
+                android:hint="Password"
+                android:includeFontPadding="false"
+                android:inputType="textPassword"
+                android:padding="15dp"
+                android:textColorHint="#626263"
+                android:textSize="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tilPassword"
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="#a9a9a9"
+            android:includeFontPadding="false">
+
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/placeholder_grey_roundcorners"
+                android:hint="Re-enter Password"
+                android:includeFontPadding="false"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColorHint="#626263"
+                android:textSize="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tilConfirmPassword"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:background="@drawable/placeholder_grey_roundcorners"
+            android:hint="Current Address"
+            android:textColorHint="#626263"
+            android:textSize="16dp"
+            android:includeFontPadding="false"/>
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/BtnComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Complete"
+        android:textSize="18dp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:includeFontPadding="false"
+        android:background="@drawable/placeholder_grey_roundcorners"
+        android:backgroundTint="#161B21"/>
+
+
+
+
+
+</RelativeLayout>

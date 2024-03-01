@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Booking_Normal_4">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/SideBarDrawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/Toolbar"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ivSideBar"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_sidebar_2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Hazir Janab"
+                    android:textSize="28dp"
+                    android:includeFontPadding="false"/>
+
+
+                <ImageView
+                    android:id="@+id/ivSupport"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_support" />
+
+            </RelativeLayout>
+
+
+            <ScrollView
+                android:id="@+id/svScrollView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@id/Toolbar">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/Toolbar"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/placeholder_grey_roundcorners"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivBooking"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@color/white"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/booking" />
+
+                    <TextView
+                        android:id="@+id/tvSelectService"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ivBooking"
+                        android:gravity="center"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Select service"
+                        android:textSize="22dp" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvServiceBooking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvSelectService">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp">
+
+                            <LinearLayout
+                                android:id="@+id/lltvService"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center_vertical"
+                                android:weightSum="2.1">
+                                <TextView
+                                    android:id="@+id/tvService"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Service: "
+                                    android:textSize="18dp"/>
+
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:paddingHorizontal="2dp"
+                                    android:background="@drawable/placeholder_grey_roundcorners_border">
+                                    <Spinner
+                                        android:id="@+id/sServiceItems"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center_vertical"
+                                        android:layout_marginRight="2dp"
+                                        android:paddingVertical="2dp"
+                                        android:pointerIcon="arrow"
+                                        android:spinnerMode="dropdown"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Service: "
+                                        android:textSize="18dp"
+                                        android:backgroundTint="@color/black"
+                                        android:popupBackground="@drawable/placeholder_grey_roundcorners_border"/>
+                                </FrameLayout>
+
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.1"
+                                    android:layout_marginLeft="2dp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lltvCity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/lltvService"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center_vertical"
+                                android:weightSum="2.1">
+                                <TextView
+                                    android:id="@+id/tvCity"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="City: "
+                                    android:textSize="18dp"/>
+
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:paddingHorizontal="2dp"
+                                    android:background="@drawable/placeholder_grey_roundcorners_border">
+                                    <Spinner
+                                        android:id="@+id/sCityItems"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center_vertical"
+                                        android:layout_marginRight="2dp"
+                                        android:paddingVertical="2dp"
+                                        android:pointerIcon="arrow"
+                                        android:spinnerMode="dropdown"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Service: "
+                                        android:textSize="18dp"
+                                        android:backgroundTint="@color/black"
+                                        android:popupBackground="@drawable/placeholder_grey_roundcorners_border"/>
+                                </FrameLayout>
+
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.1"
+                                    android:layout_marginLeft="2dp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lltvAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lltvCity"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center_vertical"
+                                android:weightSum="2.1">
+                                <TextView
+                                    android:id="@+id/tvAddress"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Address: "
+                                    android:textSize="18dp"/>
+
+                                <EditText
+                                    android:id="@+id/etAddress"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:paddingVertical="2dp"
+                                    android:paddingHorizontal="5dp"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:hint="Address"
+                                    android:textSize="16dp"
+                                    android:background="@drawable/placeholder_grey_roundcorners_border"/>
+                                <ImageView
+                                    android:id="@+id/ivMap"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.1"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_toRightOf="@id/etAddress"
+                                    android:src="@drawable/ic_map"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lltvServiceDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_below="@+id/lltvAddress"
+                                android:gravity="center_vertical"
+                                android:weightSum="2.1">
+                                <TextView
+                                    android:id="@+id/tvServiceDate"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Service Date: "
+                                    android:textSize="18dp"/>
+
+                                <TextView
+                                    android:id="@+id/tvSelectServiceDate"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:paddingVertical="2dp"
+                                    android:paddingHorizontal="5dp"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:hint="Date"
+                                    android:textSize="16dp"
+                                    android:background="@drawable/placeholder_grey_roundcorners_border"/>
+
+                                <ImageView
+                                    android:id="@+id/ivCalendar"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.1"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_toRightOf="@id/tvSelectServiceDate"
+                                    android:src="@drawable/ic_calendar"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lltvServiceTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_below="@id/lltvServiceDate"
+                                android:gravity="center_vertical"
+                                android:weightSum="2.1">
+                                <TextView
+                                    android:id="@+id/tvServiceTime"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Service Time: "
+                                    android:textSize="18dp"/>
+
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/placeholder_grey_roundcorners_border">
+                                <Spinner
+                                    android:id="@+id/sServiceTimeItems"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginRight="2dp"
+                                    android:paddingVertical="2dp"
+                                    android:pointerIcon="arrow"
+                                    android:spinnerMode="dropdown"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Service: "
+                                    android:textSize="18dp"
+                                    android:backgroundTint="@color/black"
+                                    android:popupBackground="@drawable/placeholder_grey_roundcorners_border"/>
+                                </FrameLayout>
+                                <ImageView
+                                    android:id="@+id/ivClock"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.1"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_toRightOf="@id/tvSelectServiceDate"
+                                    android:src="@drawable/ic_clock"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lltvServiceDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_below="@+id/lltvServiceTime"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/tvServiceDescription"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Service Description: "
+                                    android:textSize="18dp"/>
+
+                                <EditText
+                                    android:id="@+id/etServiceDescription"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+                                    android:layout_marginRight="2dp"
+                                    android:paddingVertical="5dp"
+                                    android:paddingHorizontal="5dp"
+
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:hint="Please describe, what do you need help with?"
+                                    android:textSize="16dp"
+                                    android:background="@drawable/placeholder_grey_roundcorners_border"
+                                    android:gravity="top"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lltvUploadPicture"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_below="@+id/lltvServiceDescription"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/tvUploadPicture"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Upload Pictures: "
+                                    android:textSize="18dp"/>
+                                <ImageView
+                                    android:id="@+id/uploadPicture"
+                                    android:layout_height="100dp"
+                                    android:layout_width="100dp"
+                                    android:scaleType="fitCenter"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_image"/>
+
+                            </LinearLayout>
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btnUploadImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_below="@id/lltvUploadPicture"
+                                android:text="Upload"
+                                android:paddingHorizontal="20dp"/>
+
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_below="@id/cvServiceBooking"/>
+                </RelativeLayout>
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/llBottomButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:paddingVertical="2dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/placeholder_grey_roundcorners"
+                    android:paddingHorizontal="24dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Next"
+                    android:textAllCaps="false"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/midnight_blue"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <include layout="@layout/template_sidebar_drawer" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title for the Popup -->
+    <TextView
+        android:id="@+id/tvPopupTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Edit Details"
+        android:gravity="center"
+        android:paddingBottom="10dp"/>
+
+    <!-- Input Field 1 -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etInputField1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Input Field 1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Input Field 2 -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etInputField2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Input Field 2"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Input Field 3 -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etInputField3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Input Field 3"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_regular"
+        android:backgroundTint="@color/midnight_blue"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

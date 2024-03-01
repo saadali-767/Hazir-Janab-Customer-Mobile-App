@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+    <item
+        android:id="@+id/main_item"
+        android:title="Menu">
+        <menu>
+            <item
+                android:id="@+id/iHome"
+                android:icon="@drawable/house"
+                android:title="Home"
+                android:checkable="true" />
+            <item
+                android:id="@+id/iProfile"
+                android:icon="@drawable/ic_profile"
+                android:title="Profile"
+                android:checkable="true" />
+            <item
+                android:id="@+id/iCart"
+                android:icon="@drawable/ic_cart"
+                android:title="Your Cart"
+                android:checkable="true"/>
+            <item
+                android:id="@+id/iRewards"
+                android:icon="@drawable/ongoing_order"
+                android:title="Your orders"
+                android:checkable="true"/>
+            <item
+                android:id="@+id/ihistory"
+                android:icon="@drawable/checked"
+                android:title="orders history"
+                android:checkable="true"/>
+        </menu>
+    </item>
+
+
+</menu>
+
+
+

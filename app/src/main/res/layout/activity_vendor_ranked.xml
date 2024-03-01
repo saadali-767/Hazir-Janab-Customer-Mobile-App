@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".userProfile_6">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/SideBarDrawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/Toolbar"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ivSideBar"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_sidebar_2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Hazir Janab"
+                    android:textSize="28dp"
+                    android:includeFontPadding="false"/>
+
+
+                <ImageView
+                    android:id="@+id/ivSupport"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_support" />
+
+            </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/SomeItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Toolbar"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/svSearchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search Here..."
+                app:queryHint="Search Here..."
+                android:background="@drawable/placeholder_grey_roundcorners_border"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="60dp"
+                android:layout_below="@+id/SomeItem">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_vendors"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp"/>
+            </ScrollView>
+        </LinearLayout>
+        </RelativeLayout>
+        <include layout="@layout/template_sidebar_drawer" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+</RelativeLayout>
+
+
