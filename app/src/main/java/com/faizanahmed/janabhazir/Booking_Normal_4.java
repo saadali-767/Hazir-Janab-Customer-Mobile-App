@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -43,7 +44,7 @@ public class Booking_Normal_4 extends AppCompatActivity {
 
     TextView tvSelectServiceDate;
     Calendar calendar = Calendar.getInstance();
-    ImageView imgGallery;
+    ImageView btnUploadImage;
     private final int GALLERY_REQ_CODE = 1;
     private Uri imageUri;
     private Bitmap bitmap;
@@ -52,6 +53,23 @@ public class Booking_Normal_4 extends AppCompatActivity {
     String serviceType;
     private Spinner sCityItems, sServiceTimeItems;
     private EditText etServiceDescription;
+    int userId;
+
+    private byte[] imgBlob1;
+
+    @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +83,32 @@ public class Booking_Normal_4 extends AppCompatActivity {
 
         DrawSideBar drawSideBar = new DrawSideBar();
         drawSideBar.setup(this);
+        userId = 0; // Placeholder for actual user ID
+        UserDatabaseHelper ddbHelper = new UserDatabaseHelper(this);
+        //Integer storedUserData = null;
+        try {
+            userId = ddbHelper.getLoggedInUserData().getInt("id");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        Log.d("userId", String.valueOf(userId));
+        if(userId != 1) {
+            Log.d("userId", String.valueOf(userId));
+        } else {
+            Log.d("MainActivity_1", "Stored user data is missing or incomplete.");
+        }
 
 
 
         ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
         ivSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Booking_Normal_4.this, "Support", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Booking_Normal_4.this, Support_11.class);
+                Toast.makeText(Booking_Normal_4.this, "Cart", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Booking_Normal_4.this, YourCart.class);
                 startActivity(intent);
             }
         });
@@ -89,6 +124,7 @@ public class Booking_Normal_4 extends AppCompatActivity {
         String serviceImageUrl = getIntent().getStringExtra("serviceImageUrl");
         String serviceVideoUrl = getIntent().getStringExtra("serviceVideoUrl");
          serviceType = getIntent().getStringExtra("serviceType");
+         Integer vendor_id=getIntent().getIntExtra("vendor_id",0);
 
         //Display all the intents that were received in toast messages
 
@@ -131,8 +167,8 @@ public class Booking_Normal_4 extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceTimeItems);
         sServiceTime.setAdapter(adapter);
 
-        imgGallery = findViewById(R.id.uploadPicture);
-        Button btnUploadImage = findViewById(R.id.btnUploadImage);
+        //imgGallery = findViewById(R.id.uploadPicture);
+        btnUploadImage = findViewById(R.id.btnUploadImage);
 
         btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,16 +194,18 @@ public class Booking_Normal_4 extends AppCompatActivity {
 
 
 
-            int userId = 1; // Placeholder for actual user ID
+
             int vendorId = 1; // Placeholder for actual vendor ID
-            byte[] imgBlob = new byte[0];
+            byte[] imgBlob = new byte[10];
+
             @Override
             public void onClick(View view) {
+                Log.d("vendorId", String.valueOf(vendor_id));
                 bookingdataholder.clearNormalBookingInstance();
                // productordersdataholder.clearOrderList();
                 //Toast.makeText(Booking_Normal_4.this, userId, Toast.LENGTH_SHORT).show();
                 NormalBooking booking = new NormalBooking(
-                        0, userId, serviceId, vendorId, serviceCity ,etAddress.getText().toString(), tvSelectServiceDate.getText().toString(), sServiceTime.getSelectedItem().toString(), serviceDescription, imgBlob,serviceType, status
+                        0, userId, serviceId, vendor_id, serviceCity ,etAddress.getText().toString(), tvSelectServiceDate.getText().toString(), sServiceTime.getSelectedItem().toString(), serviceDescription, imgBlob1,serviceType, status
                 );
                 bookingdataholder.setNormalBookingInstance(booking);
                 if (bookingdataholder.isBookingInstanceValid()) {
@@ -292,10 +330,22 @@ public class Booking_Normal_4 extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE && data != null) {
             imageUri = data.getData();
-            imgGallery.setImageURI(imageUri);
+            btnUploadImage.setImageURI(imageUri);
             Log.d("UploadData", "Image selected, URI: " + imageUri); // Confirm image selection
+
+            try {
+                // Convert the selected image into a byte array
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                imgBlob1 = byteArrayOutputStream.toByteArray();
+            } catch (IOException e) {
+                Log.e("UploadData", "Failed to convert image to byte array", e);
+                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Log.e("UploadData", "Image not selected or an error occurred.");
         }
     }
+
 }

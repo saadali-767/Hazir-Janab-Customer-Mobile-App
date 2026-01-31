@@ -34,6 +34,20 @@ public class SearchMarket extends AppCompatActivity implements RecyclerViewInter
     List<Product> productList;
     String serviceType, serviceCategory;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +57,9 @@ public class SearchMarket extends AppCompatActivity implements RecyclerViewInter
         drawSideBar.setup(this);
 
         ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
         ivSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,11 +226,10 @@ public class SearchMarket extends AppCompatActivity implements RecyclerViewInter
 //            Toast.makeText(this, "serviceCategory.toLowerCase(): "+serviceCategory.toLowerCase(), Toast.LENGTH_SHORT).show();
             if( item.getCategory().toLowerCase().contains(serviceCategory.toLowerCase())){
                 if(item.getName().toLowerCase().contains(searchText.toLowerCase()) || item.getCategory().toLowerCase().contains(searchText.toLowerCase())){
-                    Log.d("filterlist", "filterList: "+item.getName());
+                    Log.d("filterlist Abdullah", "filterList: "+item.getName());
                     filteredList.add(item);
                 }
             }
-
         }
 
         if(filteredList.isEmpty()){
@@ -225,12 +241,19 @@ public class SearchMarket extends AppCompatActivity implements RecyclerViewInter
             adapter.setFilteredList(filteredList);
             //show filterlist contents
             for (Product item: filteredList){
-                Log.d("filterlist", "filterList: "+item.getName());
+                Log.d("filterlistMujeeb", "filterList: "+item.getName());
             }
         }
 //        if(Inquiry==1){
 //            serviceType="Inquiry";
 //        }
+        adapter.notifyDataSetChanged();
+        for(int i=0; i<filteredList.size();i++){
+            Log.d("value of i:", String.valueOf(i));
+            Log.d("filteredlist content", "product: "+ filteredList.get(i).getName());
+        }
+        ProductDataHolder.setProductList(filteredList);
+
         Log.d("SendingIntentDatacheckinside filter", serviceType);
 
     }
@@ -307,32 +330,51 @@ public class SearchMarket extends AppCompatActivity implements RecyclerViewInter
     public void onItemClicked(int position) {
 
         Intent intent = new Intent(this, ProductDetails.class);
+        //Item serviceItem = servicedataholder.findItemByServiceId(bookingdataholder.getNormalBookingInstance().getServiceId()).getItemCategory();
+        Log.d("product category", serviceCategory);
+        //Log.d("service category",servicedataholder.findItemByServiceId(bookingdataholder.getNormalBookingInstance().getServiceId()).getItemCategory() );
 
-        Product clickedProduct;
-        if (filteredList.isEmpty()) {
-            Log.d("its empty", "onProductClicked: " + productList.get(position).getName());
-            clickedProduct = productList.get(position);
-            intent.putExtra("productId", productList.get(position).getId());
-            intent.putExtra("productName", productList.get(position).getName());
-            intent.putExtra("productPrice", productList.get(position).getPrice());
-            intent.putExtra("productDescription", productList.get(position).getDescription());
-            intent.putExtra("ProductQuantity", productList.get(position).getQuantity());
-            intent.putExtra("ProductCategory", productList.get(position).getCategory());
-            intent.putExtra("ProductAvailability", productList.get(position).isAvailability());
+        if(bookingdataholder.isBookingInstanceValid() && !servicedataholder.findItemByServiceId(bookingdataholder.getNormalBookingInstance().getServiceId()).getItemCategory().equals(serviceCategory)){
+            Toast.makeText(SearchMarket.this, "Please select the product of same service category ("+servicedataholder.findItemByServiceId(bookingdataholder.getNormalBookingInstance().getServiceId()).getItemCategory()+")", Toast.LENGTH_SHORT).show();
+            //Integer id=bookingdataholder.getNormalBookingInstance().getServiceId();
 
 
-        } else {
-            Log.d("its not empty", "onProductClicked: " + productList.get(position).getName());
-            clickedProduct = productList.get(position);
-            intent.putExtra("productId", productList.get(position).getId());
-            intent.putExtra("productName", productList.get(position).getName());
-            intent.putExtra("productPrice", productList.get(position).getPrice());
-            intent.putExtra("productDescription", productList.get(position).getDescription());
-            intent.putExtra("ProductQuantity", productList.get(position).getQuantity());
-            intent.putExtra("ProductCategory", productList.get(position).getCategory());
-            intent.putExtra("ProductAvailability", productList.get(position).isAvailability());
+
+
+
+        } else if (!bookingdataholder.isBookingInstanceValid()) {
+            Toast.makeText(SearchMarket.this, "Please select a service first", Toast.LENGTH_SHORT).show();
+
+
+        } else if (bookingdataholder.isBookingInstanceValid() && servicedataholder.findItemByServiceId(bookingdataholder.getNormalBookingInstance().getServiceId()).getItemCategory().equals(serviceCategory)) {
+            Product clickedProduct;
+            if (filteredList.isEmpty()) {
+                Log.d("its empty", "onProductClicked: " + productList.get(position).getName());
+                clickedProduct = productList.get(position);
+                intent.putExtra("productId", productList.get(position).getId());
+                intent.putExtra("productName", productList.get(position).getName());
+                intent.putExtra("productPrice", productList.get(position).getPrice());
+                intent.putExtra("productDescription", productList.get(position).getDescription());
+                intent.putExtra("ProductQuantity", productList.get(position).getQuantity());
+                intent.putExtra("ProductCategory", productList.get(position).getCategory());
+                intent.putExtra("ProductAvailability", productList.get(position).isAvailability());
+
+
+            } else {
+                Log.d("its not empty", "onProductClicked: " + filteredList.get(position).getName());
+                clickedProduct = filteredList.get(position);
+                intent.putExtra("productId", filteredList.get(position).getId());
+                intent.putExtra("productName", filteredList.get(position).getName());
+                intent.putExtra("productPrice", filteredList.get(position).getPrice());
+                intent.putExtra("productDescription", filteredList.get(position).getDescription());
+                intent.putExtra("ProductQuantity", filteredList.get(position).getQuantity());
+                intent.putExtra("ProductCategory", filteredList.get(position).getCategory());
+                intent.putExtra("ProductAvailability", filteredList.get(position).isAvailability());
+            }
+
+            startActivity(intent);
         }
 
-        startActivity(intent);
+
     }
 }

@@ -20,10 +20,13 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
     private Context context;
     private RecyclerViewInterface recyclerViewInterface;
 
-    public CartServiceAdapter(Context context, List<CartServiceItem> cartServiceItems, RecyclerViewInterface recyclerViewInterface) {
+    private final YourCart activity;
+
+    public CartServiceAdapter(Context context, List<CartServiceItem> cartServiceItems, RecyclerViewInterface recyclerViewInterface,YourCart activity) {
         this.context = context;
         this.cartServiceItems = cartServiceItems;
         this.recyclerViewInterface = recyclerViewInterface;
+        this.activity=activity;
     }
 
     @NonNull
@@ -54,7 +57,7 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
                 // Show confirmation dialog
                 new AlertDialog.Builder(v.getContext())
                         .setTitle("Remove Product")
-                        .setMessage("Are you sure you want to remove this service?")
+                        .setMessage("Are you sure you want to remove this service? Products in the cart will also be removed")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Remove the item from the list
@@ -63,6 +66,10 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
                                 // Notify the adapter of the item removed
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, cartServiceItems.size());
+                                productordersdataholder.clearOrderList();
+                                activity.initializeServiceItemList();
+                                activity.initializeProductList();
+                                productordersdataholder.clearOrderList();
                             }
                         })
                         .setNegativeButton("Cancel", null)

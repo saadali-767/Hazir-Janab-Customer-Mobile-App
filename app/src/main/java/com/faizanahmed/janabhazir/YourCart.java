@@ -1,6 +1,7 @@
 package com.faizanahmed.janabhazir;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class YourCart extends AppCompatActivity implements RecyclerViewInterface {
+    double totalAmount = 0;
 
     RecyclerView rvProduct, rvService;
     CartProductAdapter cartProductAdapter;
@@ -39,6 +43,10 @@ public class YourCart extends AppCompatActivity implements RecyclerViewInterface
     List<Product> productList;
     List<CartServiceItem> serviceItemList;
     List<productorders> orders;
+    LinearLayout service_layout,product_layout;
+    RelativeLayout payment_layout,buttons_layout;
+    CardView total_amount;
+    TextView emptycart;
     int bookingID;
     Button BtnNext;
     TextView ivtotal;
@@ -55,6 +63,12 @@ public class YourCart extends AppCompatActivity implements RecyclerViewInterface
         drawSideBar.setup(this);
         BtnNext=findViewById(R.id.BtnNext);
         ivtotal=findViewById(R.id.tvTotalAmount);
+        service_layout=findViewById(R.id.rlService);
+        product_layout=findViewById(R.id.rlProduct);
+        payment_layout=findViewById(R.id.rlPayment);
+        total_amount=findViewById(R.id.cvTotalAmount);
+        buttons_layout=findViewById(R.id.rlBottomButtons);
+        emptycart=findViewById(R.id.emptycart);
         serviceItemList = new ArrayList<>();
 
 
@@ -72,7 +86,7 @@ public class YourCart extends AppCompatActivity implements RecyclerViewInterface
 
 
         initializeServiceItemList(); // This method will populate the serviceItemList
-        cartServiceAdapter = new CartServiceAdapter(YourCart.this, serviceItemList, this);
+        cartServiceAdapter = new CartServiceAdapter(YourCart.this, serviceItemList, this,YourCart.this);
         rvService.setLayoutManager(new LinearLayoutManager(this));
         rvService.setAdapter(cartServiceAdapter);
         updateTotalAmount();
@@ -84,6 +98,7 @@ public class YourCart extends AppCompatActivity implements RecyclerViewInterface
                 if (bookingdataholder.isBookingInstanceValid()) {
                     // Proceed to the next activity since a service is selected
                     Intent intent = new Intent(YourCart.this, confirmorder.class);
+                    intent.putExtra("totalAmount",totalAmount);
                     startActivity(intent);
                 } else {
                     // No service selected, show a toast message
@@ -95,7 +110,7 @@ public class YourCart extends AppCompatActivity implements RecyclerViewInterface
         });
     }
     public void updateTotalAmount() {
-        double totalAmount = 0;
+         totalAmount = 0;
 
         // Calculate the total amount from the product list
         for (Product product : productList) {
@@ -113,23 +128,38 @@ public class YourCart extends AppCompatActivity implements RecyclerViewInterface
 
 
     public void initializeProductList() {
+
+
         // Clear the existing productList to ensure it's empty before adding new items
         productList.clear();
+        if(productordersdataholder.getOrderList().isEmpty() && !bookingdataholder.isBookingInstanceValid()){
+            product_layout.setVisibility(View.GONE);
+            service_layout.setVisibility(View.GONE);
+            payment_layout.setVisibility(View.GONE);
+            total_amount.setVisibility(View.GONE);
+            buttons_layout.setVisibility(View.GONE);
+            emptycart.setVisibility(View.VISIBLE);
 
-        // Get the list of product orders from the ProductOrderManager
-        orders = productordersdataholder.getOrderList();
+        } else if (productordersdataholder.getOrderList().isEmpty()){
+            product_layout.setVisibility(View.GONE);
+        } else {
 
-        // Iterate over each order
-        for (productorders order : orders) {
-            // Use the product ID from the order to find the corresponding product
-            Product product = ProductDataHolder.findProductById(order.getProductID());
 
-            if (product != null) {
-                // Create a new product instance with the order's quantity
-                Product orderedProduct = new Product(product.getId(), product.getName(), product.getDescription(), order.getQuantity(), product.getCategory(), product.getPrice(), product.isAvailability());
+            // Get the list of product orders from the ProductOrderManager
+            orders = productordersdataholder.getOrderList();
 
-                // Add the product with the updated quantity to the productList
-                productList.add(orderedProduct);
+            // Iterate over each order
+            for (productorders order : orders) {
+                // Use the product ID from the order to find the corresponding product
+                Product product = ProductDataHolder.findProductById(order.getProductID());
+
+                if (product != null) {
+                    // Create a new product instance with the order's quantity
+                    Product orderedProduct = new Product(product.getId(), product.getName(), product.getDescription(), order.getQuantity(), product.getCategory(), product.getPrice(), product.isAvailability());
+
+                    // Add the product with the updated quantity to the productList
+                    productList.add(orderedProduct);
+                }
             }
         }
         updateTotalAmount();
@@ -137,7 +167,14 @@ public class YourCart extends AppCompatActivity implements RecyclerViewInterface
     }
 
 
-    private void initializeServiceItemList() {
+    public void initializeServiceItemList() {
+        serviceItemList.clear();
+        if(!bookingdataholder.isBookingInstanceValid()){
+            service_layout.setVisibility(View.GONE);
+        }
+        else{
+
+
         NormalBooking normalBooking = bookingdataholder.getNormalBookingInstance();
         if (normalBooking != null) {
             // Use the new method to get the Item by serviceId
@@ -155,6 +192,7 @@ public class YourCart extends AppCompatActivity implements RecyclerViewInterface
         } else {
             // Handle case where there is no NormalBooking instance
             System.out.println("No NormalBooking instance available.");
+        }
         }
     updateTotalAmount();
         // There's no need to add cartServiceItem here as it's done within the valid condition block

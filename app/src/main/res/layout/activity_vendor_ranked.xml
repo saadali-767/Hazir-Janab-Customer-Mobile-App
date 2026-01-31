@@ -46,38 +46,42 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_support" />
+                    android:src="@drawable/ic_cart" />
 
             </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/SomeItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/Toolbar"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/svSearchView"
+            <LinearLayout
+                android:id="@+id/SomeItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Search Here..."
-                app:queryHint="Search Here..."
-                android:background="@drawable/placeholder_grey_roundcorners_border"/>
+                android:layout_below="@+id/Toolbar"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="60dp"
-                android:layout_below="@+id/SomeItem">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_vendors"
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/svSearchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/placeholder_grey_roundcorners_border"
+                    android:hint="Search Here..."
+                    app:queryHint="Search Here..." />
+
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="16dp"/>
-            </ScrollView>
-        </LinearLayout>
+                    android:layout_below="@+id/SomeItem"
+                    android:layout_marginBottom="60dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_vendors"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp" />
+                </ScrollView>
+            </LinearLayout>
         </RelativeLayout>
         <include layout="@layout/template_sidebar_drawer" />
     </androidx.drawerlayout.widget.DrawerLayout>

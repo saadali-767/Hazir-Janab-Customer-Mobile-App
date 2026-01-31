@@ -28,7 +28,7 @@ public class bookingdataholder {
         // Check if the instance is not null
         if (normalBookingInstance != null) {
             // For further validation, check a specific attribute. Example: serviceId
-            return normalBookingInstance.getServiceId() > 0; // Assuming serviceId > 0 is valid
+            return true; // Assuming serviceId > 0 is valid
         }
         return false; // No instance present
     }

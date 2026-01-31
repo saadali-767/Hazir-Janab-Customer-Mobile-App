@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +29,7 @@ import java.util.Map;
 
 public class confirmorder extends AppCompatActivity {
     Button BtnNext,BtnBack;
+    double totalAmount = 0;
     List<productorders> orders;
     int bookingID;
     public interface UploadCallback {
@@ -35,16 +37,23 @@ public class confirmorder extends AppCompatActivity {
         void onUploadFailure(String error);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmorder);
         BtnBack=findViewById(R.id.BtnBack);
 
+        Intent intent = getIntent();
+        totalAmount= intent.getDoubleExtra("totalAmount", 0);
+        Log.d("totalAmount", "totalAmount: "+totalAmount);
+
         BtnNext=findViewById(R.id.BtnNext);
         BtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 NormalBooking normalBooking = bookingdataholder.getNormalBookingInstance();
                 uploadData(normalBooking, new YourCart.UploadCallback() {
                     @Override
@@ -56,6 +65,8 @@ public class confirmorder extends AppCompatActivity {
                         bookingdataholder.clearNormalBookingInstance();
 
                     }
+
+
 
                     @Override
                     public void onUploadFailure(String error) {
@@ -99,6 +110,8 @@ public class confirmorder extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("UploadData", "Volley onResponse: " + response); // Log the response
                         Toast.makeText(confirmorder.this, "Booking Completed successfully", Toast.LENGTH_SHORT).show();
+                       // Intent intent = new Intent(confirmorder.this, payment.class);
+                      //  startActivity(intent);
                         // Handle the server response here
                         JSONObject jsonResponse = null;
                         try {
@@ -178,7 +191,12 @@ public class confirmorder extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("UploadProductOrders", "Volley onResponse: " + response);
                         Toast.makeText(confirmorder.this, "Product orders uploaded successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(confirmorder.this, MainActivity_1.class);
+
+                        Intent intent = new Intent(confirmorder.this, payment.class);
+
+                        intent.putExtra("bookingId",bookingId);
+
+                        intent.putExtra("totalAmount",totalAmount);
                         startActivity(intent);
                     }
                 }, new Response.ErrorListener() {

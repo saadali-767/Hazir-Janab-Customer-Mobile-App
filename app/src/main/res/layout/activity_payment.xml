@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".payment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please make payment to confirm your order"
+        android:textSize="18dp">
+
+    </TextView>
+
+    <!-- Container for the card number and icon -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/et_card_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Card Number"
+            android:inputType="numberDecimal"
+            android:maxLength="19" /> <!-- Updated for card number format -->
+
+        <ImageView
+            android:id="@+id/iv_card_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/creditcard" /> <!-- Your card icon -->
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_exp_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="MM/YY"
+        android:maxLength="5" />
+
+    <EditText
+        android:id="@+id/et_cvc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CVC"
+        android:inputType="number"
+        android:maxLength="4" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_submit_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Payment"
+        android:textSize="20dp"
+        android:onClick="onSubmitPaymentClick"
+        android:backgroundTint="#161B21"
+        android:fontFamily="@font/poppins_regular"
+        android:includeFontPadding="false"
+        android:textAllCaps="false"
+        android:textColor="#EFE8E8">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+</LinearLayout>

@@ -64,7 +64,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         } else {
             holder.descriptionTextView.setText(product.getDescription());
         }
-        String img = "ic_service"+String.valueOf(product.getId());
+        String img = "ic_product"+String.valueOf(product.getId());
 
         int imageResId = context.getResources().getIdentifier(img, "drawable", context.getPackageName());
 

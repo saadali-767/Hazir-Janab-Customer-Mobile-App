@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,13 +37,31 @@ import java.util.Map;
 
 public class Booking_Emergency extends AppCompatActivity {
     Integer serviceId;
-    ImageView imgGallery;
+    //ImageView imgGallery;
+
+    ImageView btnUploadImage;
     private final int GALLERY_REQ_CODE = 1;
     private Uri imageUri;
     private Bitmap bitmap;
     String serviceType;
     private EditText etAddress, etServiceDescription;
     private Spinner sCityItems;
+    int userId;
+    private byte[] imgBlob1;
+
+    @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +76,29 @@ public class Booking_Emergency extends AppCompatActivity {
         String serviceImageUrl = getIntent().getStringExtra("serviceImageUrl");
         String serviceVideoUrl = getIntent().getStringExtra("serviceVideoUrl");
          serviceType = getIntent().getStringExtra("serviceType");
+        Integer vendor_id=getIntent().getIntExtra("vendor_id",0);
         Log.d("serviceIDintent", String.valueOf(serviceId));
+        userId = 1; // Placeholder for actual user ID
+        UserDatabaseHelper ddbHelper = new UserDatabaseHelper(this);
+        //Integer storedUserData = null;
+        try {
+            userId = ddbHelper.getLoggedInUserData().getInt("id");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        if(userId != 1) {
+            Log.d("dbhelperdata", String.valueOf(userId));
+        } else {
+            Log.d("MainActivity_1", "Stored user data is missing or incomplete.");
+        }
 
 
-        imgGallery = findViewById(R.id.uploadPicture);
+
+        //imgGallery = findViewById(R.id.uploadPicture);
         etAddress = findViewById(R.id.etAddress);
         etServiceDescription = findViewById(R.id.etServiceDescription);
         sCityItems = findViewById(R.id.sCityItems);
-        Button btnUploadImage = findViewById(R.id.btnUploadImage);
+        btnUploadImage = findViewById(R.id.btnUploadImage);
         Button btnNext = findViewById(R.id.btnNext);
 
         //Service Items
@@ -79,6 +115,19 @@ public class Booking_Emergency extends AppCompatActivity {
         ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cityItems);
         sServiceCity.setAdapter(cityAdapter);
 
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
+        ivSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(Booking_Emergency.this, "Support", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Booking_Emergency.this, YourCart.class);
+                startActivity(intent);
+            }
+        });
+
 
         btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +138,10 @@ public class Booking_Emergency extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(new View.OnClickListener() {
-            int userId = 1; // Placeholder for actual user ID
-            int vendorId = 1; // Placeholder for actual vendor ID
-            byte[] imgBlob = new byte[0];
-            String status="pending";
+            //int userId = 1; // Placeholder for actual user ID
+            //int vendorId = 2; // Placeholder for actual vendor ID
+            byte[] imgBlob = new byte[10];
+            String status="Pending";
 
             Calendar calendar = Calendar.getInstance();
 
@@ -110,10 +159,23 @@ public class Booking_Emergency extends AppCompatActivity {
                 bookingdataholder.clearNormalBookingInstance();
                // productordersdataholder.clearOrderList();
                 //Toast.makeText(Booking_Normal_4.this, userId, Toast.LENGTH_SHORT).show();
-                NormalBooking booking = new NormalBooking(
-                        0, userId, serviceId, vendorId, serviceCity ,etAddress.getText().toString(), todayDate, "immediately", serviceDescription, imgBlob,serviceType, status
-                );
-                bookingdataholder.setNormalBookingInstance(booking);
+                if (imageUri != null && !etAddress.getText().toString().isEmpty() && !etServiceDescription.getText().toString().isEmpty()) {
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    NormalBooking booking = new NormalBooking(
+                            0, userId, serviceId, vendor_id, serviceCity, etAddress.getText().toString(), todayDate, "", serviceDescription, imgBlob1, serviceType, status
+                    );
+                    bookingdataholder.setNormalBookingInstance(booking);
+                }
+
                 if (bookingdataholder.isBookingInstanceValid()) {
                     Log.d("BookingCheck", "The booking instance has been successfully added and is valid.");
                     Toast.makeText(Booking_Emergency.this, "added to cart",Toast.LENGTH_SHORT).show();
@@ -124,7 +186,7 @@ public class Booking_Emergency extends AppCompatActivity {
 
 
                 if (imageUri != null && !etAddress.getText().toString().isEmpty() && !etServiceDescription.getText().toString().isEmpty()) {
-                    uploadData();
+                    //uploadData();
                     Intent intent = new Intent(Booking_Emergency.this, MainActivity_1.class);
                     intent.putExtra("serviceId", serviceId);
                     intent.putExtra("serviceName", serviceName);
@@ -211,7 +273,21 @@ public class Booking_Emergency extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE && data != null) {
             imageUri = data.getData();
-            imgGallery.setImageURI(imageUri);
+            btnUploadImage.setImageURI(imageUri);
+            Log.d("UploadData", "Image selected, URI: " + imageUri); // Confirm image selection
+
+            try {
+                // Convert the selected image into a byte array
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                imgBlob1 = byteArrayOutputStream.toByteArray();
+            } catch (IOException e) {
+                Log.e("UploadData", "Failed to convert image to byte array", e);
+                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.e("UploadData", "Image not selected or an error occurred.");
         }
     }
 }

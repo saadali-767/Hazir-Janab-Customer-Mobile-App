@@ -13,6 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 public class orderPlacedCOD_10 extends AppCompatActivity {
 
     @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_placed_cod10);
@@ -21,10 +35,13 @@ public class orderPlacedCOD_10 extends AppCompatActivity {
         drawSideBar.setup(this);
 
         ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
         ivSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(orderPlacedCOD_10.this, "Support", Toast.LENGTH_SHORT).show();
+                Toast.makeText(orderPlacedCOD_10.this, "cart", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(orderPlacedCOD_10.this, Support_11.class);
                 startActivity(intent);
             }

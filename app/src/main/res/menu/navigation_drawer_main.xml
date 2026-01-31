@@ -31,6 +31,11 @@
                 android:icon="@drawable/checked"
                 android:title="orders history"
                 android:checkable="true"/>
+            <item
+                android:id="@+id/isupport"
+                android:icon="@drawable/ic_support"
+                android:title="Support"
+                android:checkable="true"/>
         </menu>
     </item>
 

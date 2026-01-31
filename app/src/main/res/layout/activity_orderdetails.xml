@@ -118,6 +118,67 @@
                             android:minHeight="190dp"
                             android:includeFontPadding="false"/>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/rlService"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/emptyproductlist"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="There are no products with this service"
+                            android:textSize="22dp"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:includeFontPadding="false"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_above="@+id/rlBottomButtons"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_margin="10dp"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter"
+                            android:layout_weight="1"
+                            android:src="@drawable/ic_amount"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:padding="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="4"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tvTotalAmountDisplay"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:gravity="center_vertical"
+                                android:layout_weight="4"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="Total Amount"
+                                android:textSize="16dp"
+                                android:includeFontPadding="false"/>
+                            <TextView
+                                android:id="@+id/tvTotalAmount"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:gravity="center_vertical"
+                                android:layout_weight="4"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="PKR 300/-"
+                                android:textSize="16dp"
+                                android:includeFontPadding="false"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
 
 
 

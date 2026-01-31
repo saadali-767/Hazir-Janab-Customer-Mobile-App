@@ -46,7 +46,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_support" />
+                    android:src="@drawable/ic_cart" />
 
             </RelativeLayout>
 

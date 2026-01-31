@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,6 +35,10 @@ public class orderhistory extends AppCompatActivity implements RecyclerViewInter
     userordersserviceadapter cartServiceAdapter;
     List<CartServiceItem> serviceItemList;
     List<NormalBooking> bookingList;
+    int userId ;// Placeholder for actual user ID
+
+    LinearLayout rlService;
+    TextView emptycart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +46,23 @@ public class orderhistory extends AppCompatActivity implements RecyclerViewInter
         DrawSideBar drawSideBar = new DrawSideBar();
         drawSideBar.setup(this);
         bookingList = new ArrayList<>();
+        emptycart=findViewById(R.id.emptycart);
+        rlService=findViewById(R.id.rlService);
+        userId = 0; // Placeholder for actual user ID
+        UserDatabaseHelper ddbHelper = new UserDatabaseHelper(this);
+        //Integer storedUserData = null;
+        try {
+            userId = ddbHelper.getLoggedInUserData().getInt("id");
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        Log.d("userId", String.valueOf(userId));
+        if(userId != 1) {
+            Log.d("userId", String.valueOf(userId));
+        } else {
+            Log.d("MainActivity_1", "Stored user data is missing or incomplete.");
+        }
 
         rvService = findViewById(R.id.rvServiceList);
         serviceItemList = new ArrayList<>();
@@ -45,7 +70,18 @@ public class orderhistory extends AppCompatActivity implements RecyclerViewInter
         cartServiceAdapter = new userordersserviceadapter(orderhistory.this, serviceItemList,this);
         rvService.setLayoutManager(new LinearLayoutManager(this));
         rvService.setAdapter(cartServiceAdapter);
-        fetchNormalBookingsFromDatabase(1);
+        fetchNormalBookingsFromDatabase(userId);
+
+
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        ivSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(userProfile_6.this, "Support", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(orderhistory.this, Support_11.class);
+                startActivity(intent);
+            }
+        });
     }
     private void initializeServiceItemList() {
         //fetchNormalBookingsFromDatabase(1);
@@ -83,6 +119,10 @@ public class orderhistory extends AppCompatActivity implements RecyclerViewInter
         // Notify any observers that the data set has changed (if you are using an adapter or similar)
         if (cartServiceAdapter != null) {
             cartServiceAdapter.notifyDataSetChanged();
+        }
+        if(serviceItemList.isEmpty() || serviceItemList== null ){
+            rlService.setVisibility(View.GONE);
+            emptycart.setVisibility(View.VISIBLE);
         }
     }
 

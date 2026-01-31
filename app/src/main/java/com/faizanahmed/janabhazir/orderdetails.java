@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -42,6 +44,9 @@ public class orderdetails extends AppCompatActivity implements RecyclerViewInter
     int bookingID,defaultValue,check;
     Button BtnNext;
     List<productorders> pList;
+    LinearLayout product_layout;
+    TextView emptyproductlist;
+    TextView ivtotal;
 
 
     @Override
@@ -51,6 +56,9 @@ public class orderdetails extends AppCompatActivity implements RecyclerViewInter
         DrawSideBar drawSideBar = new DrawSideBar();
         drawSideBar.setup(this);
         BtnNext=findViewById(R.id.BtnNext);
+        product_layout=findViewById(R.id.rlProduct);
+        emptyproductlist=findViewById(R.id.emptyproductlist);
+        ivtotal=findViewById(R.id.tvTotalAmount);
 
         productList = new ArrayList<>();
         pList = new ArrayList<>();
@@ -84,6 +92,13 @@ public class orderdetails extends AppCompatActivity implements RecyclerViewInter
         cartServiceAdapter = new userordersserviceadapter(orderdetails.this, serviceItemList, this);
         rvService.setLayoutManager(new LinearLayoutManager(this));
         rvService.setAdapter(cartServiceAdapter);
+        String service_status=userbookingsdataholder.findOrdersByProductId(bookingID).getStatus();
+        Log.d("service status", service_status);
+        if(!service_status.equals("In-progress")){
+            BtnNext.setVisibility(View.GONE);
+        }else{
+            BtnNext.setVisibility(View.VISIBLE);
+        }
 
         BtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,10 +111,28 @@ public class orderdetails extends AppCompatActivity implements RecyclerViewInter
             }
         });
     }
+    public void updateTotalAmount() {
+        double totalAmount = 0;
+
+        // Calculate the total amount from the product list
+        for (Product product : productList) {
+            totalAmount += product.getPrice() * product.getQuantity();
+        }
+
+        // Calculate the total amount from the service list
+        for (CartServiceItem serviceItem : serviceItemList) {
+            totalAmount += Double.parseDouble(serviceItem.getServiceItem().getItemHourlyRate());
+        }
+
+        // Update the TextView with the new total amount
+        ivtotal.setText("PKR " + String.format("%.2f", totalAmount) + "/-");
+    }
 
     private void initializeProductList() {
         // Clear the existing productList to ensure it's empty before adding new items
         productList.clear();
+
+
 
         // Get the list of product orders from the ProductOrderManager
        // orders = productordersdataholder.getOrderList();
@@ -117,6 +150,13 @@ public class orderdetails extends AppCompatActivity implements RecyclerViewInter
                 productList.add(orderedProduct);
             }
         }
+        Log.d("product list", "initializeProductList: "+productList);
+        if (productList.isEmpty() || productList == null){
+            product_layout.setVisibility(View.GONE);
+            emptyproductlist.setVisibility(View.VISIBLE);
+
+        }
+        updateTotalAmount();
 
         // Now productList is initialized with products from the orders
     }
@@ -141,7 +181,7 @@ public class orderdetails extends AppCompatActivity implements RecyclerViewInter
             // Handle case where there is no NormalBooking instance
             System.out.println("No NormalBooking instance available.");
         }
-
+        updateTotalAmount();
         // There's no need to add cartServiceItem here as it's done within the valid condition block
     }
 
@@ -187,13 +227,14 @@ public class orderdetails extends AppCompatActivity implements RecyclerViewInter
                                 }
                                 initializeProductList();
                             } else {
+                                initializeProductList();
                                 // Handle the failure case here
                                 String message = responseObject.getString("Message");
-                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "Error parsing JSON response: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                           // Toast.makeText(getApplicationContext(), "Error parsing JSON response: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {

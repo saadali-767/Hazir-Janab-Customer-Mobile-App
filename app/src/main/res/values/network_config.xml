@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="server_url">http://192.168.18.105:80/</string>
+    <string name="server_url">http:/172.17.43.199/</string>
+    <string name="predict">http://172.17.43.199:5000/</string>
+    <string name="update">http://172.17.43.199:5001/</string>
+
+
+
+
 </resources>

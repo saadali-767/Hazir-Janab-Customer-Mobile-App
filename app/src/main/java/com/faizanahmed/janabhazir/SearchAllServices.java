@@ -44,6 +44,20 @@ public class SearchAllServices extends AppCompatActivity implements RecyclerView
     String serviceType, serviceCategory;
 
     @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_all_services);
@@ -51,6 +65,9 @@ public class SearchAllServices extends AppCompatActivity implements RecyclerView
         drawSideBar.setup(this);
 
         ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
         ivSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -343,6 +360,7 @@ public class SearchAllServices extends AppCompatActivity implements RecyclerView
             intent.putExtra("serviceType", itemList.get(position).getItemType());
         } else {
             Log.d("its not empty", "onItemClicked: " + itemList.get(position).getItemName());
+            clickedItem = filteredList.get(position);
             clickedItem = filteredList.get(position);
             intent.putExtra("serviceId", filteredList.get(position).getItemId());
             intent.putExtra("serviceName", filteredList.get(position).getItemName());

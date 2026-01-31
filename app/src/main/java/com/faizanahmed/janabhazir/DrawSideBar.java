@@ -89,6 +89,13 @@ public class DrawSideBar {
                         //Toast.makeText(activity, "Rewards Clicked", Toast.LENGTH_SHORT).show();
                         return true;
                     }
+                    else if (item.getItemId() == R.id.isupport) {
+                        Intent intent = new Intent(activity, Support_11.class);
+                        activity.startActivity(intent);
+                        //Toast rewards clicked
+                        //Toast.makeText(activity, "Rewards Clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
                     return false;
                 }
             });

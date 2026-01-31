@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,6 +34,10 @@ public class userorders extends AppCompatActivity implements RecyclerViewInterfa
     userordersserviceadapter cartServiceAdapter;
     List<CartServiceItem> serviceItemList;
     List<NormalBooking> bookingList;
+    LinearLayout rlService;
+    TextView emptycart;
+    int userId ;// Placeholder for actual user ID
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +45,24 @@ public class userorders extends AppCompatActivity implements RecyclerViewInterfa
         DrawSideBar drawSideBar = new DrawSideBar();
         drawSideBar.setup(this);
         bookingList = new ArrayList<>();
+        emptycart=findViewById(R.id.emptycart);
+        rlService=findViewById(R.id.rlService);
+
+        userId = 0; // Placeholder for actual user ID
+        UserDatabaseHelper ddbHelper = new UserDatabaseHelper(this);
+        //Integer storedUserData = null;
+        try {
+            userId = ddbHelper.getLoggedInUserData().getInt("id");
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        Log.d("userId", String.valueOf(userId));
+        if(userId != 1) {
+            Log.d("userId", String.valueOf(userId));
+        } else {
+            Log.d("MainActivity_1", "Stored user data is missing or incomplete.");
+        }
 
         rvService = findViewById(R.id.rvServiceList);
         serviceItemList = new ArrayList<>();
@@ -44,7 +70,17 @@ public class userorders extends AppCompatActivity implements RecyclerViewInterfa
         cartServiceAdapter = new userordersserviceadapter(userorders.this, serviceItemList,this);
         rvService.setLayoutManager(new LinearLayoutManager(this));
         rvService.setAdapter(cartServiceAdapter);
-        fetchNormalBookingsFromDatabase(1);
+        fetchNormalBookingsFromDatabase(userId);
+
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        ivSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(userProfile_6.this, "Support", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(userorders.this, Support_11.class);
+                startActivity(intent);
+            }
+        });
     }
     private void initializeServiceItemList() {
         //fetchNormalBookingsFromDatabase(1);
@@ -59,6 +95,7 @@ public class userorders extends AppCompatActivity implements RecyclerViewInterfa
         if (bookingList != null && !bookingList.isEmpty()) {
             // Iterate over all bookings
             for (NormalBooking normalBooking : bookingList) {
+
                 // Use the method to get the Item by serviceId for each booking
                 if(normalBooking.getStatus() !="Completed" || normalBooking.getStatus()!="Rejected") {
                     Item serviceItem = servicedataholder.findItemByServiceId(normalBooking.getServiceId());
@@ -77,11 +114,17 @@ public class userorders extends AppCompatActivity implements RecyclerViewInterfa
         } else {
             // Log or handle the case where bookingList is empty or null
             Log.d("ServiceItemLog", "No bookings available or bookingList is null.");
+
         }
 
         // Notify any observers that the data set has changed (if you are using an adapter or similar)
         if (cartServiceAdapter != null) {
             cartServiceAdapter.notifyDataSetChanged();
+        }
+        if(serviceItemList.isEmpty() || serviceItemList == null){
+            emptycart.setVisibility(View.VISIBLE);
+            rlService.setVisibility(View.GONE);
+
         }
     }
 
@@ -138,8 +181,11 @@ public class userorders extends AppCompatActivity implements RecyclerViewInterfa
                                  initializeServiceItemList();
                             } else {
                                 // Handle the failure case here
+                                //emptycart.setVisibility(View.VISIBLE);
+                                //rlService.setVisibility(View.GONE);
                                 String message = responseObject.getString("Message");
-                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                initializeServiceItemList();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

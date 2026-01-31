@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
+    implementation ("com.stripe:stripe-android:19.3.0") // Check for the latest version on Stripe's GitHub
 
     implementation ("com.android.volley:volley:1.2.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")

@@ -151,15 +151,15 @@
                         android:text="Daud Khan"
                         android:textSize="16dp"
                         android:includeFontPadding="false"/>
-                    <TextView
-                        android:id="@+id/tvEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:fontFamily="@font/poppins_light"
-                        android:text="-"
-                        android:textSize="16dp"
-                        android:includeFontPadding="false"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/tvEmail"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center"-->
+<!--                        android:fontFamily="@font/poppins_light"-->
+<!--                        android:text="-"-->
+<!--                        android:textSize="16dp"-->
+<!--                        android:includeFontPadding="false"/>-->
                     <TextView
                         android:id="@+id/tvPhoneNumber"
                         android:layout_width="match_parent"
@@ -296,26 +296,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp">
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/BtnBack"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Back"
-                    android:textSize="18dp"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:includeFontPadding="false"
-                    android:background="@drawable/placeholder_grey_roundcorners"
-                    android:backgroundTint="#161B21"/>
+<!--                <androidx.appcompat.widget.AppCompatButton-->
+<!--                    android:id="@+id/BtnBack"-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentStart="true"-->
+<!--                    android:fontFamily="@font/poppins_regular"-->
+<!--                    android:text="Back"-->
+<!--                    android:textSize="18dp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:includeFontPadding="false"-->
+<!--                    android:background="@drawable/placeholder_grey_roundcorners"-->
+<!--                    android:backgroundTint="#161B21"/>-->
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/BtnNext"
-                    android:layout_width="150dp"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Next"
+                    android:text="Save"
                     android:textSize="18dp"
                     android:textColor="@color/white"
                     android:textAllCaps="false"

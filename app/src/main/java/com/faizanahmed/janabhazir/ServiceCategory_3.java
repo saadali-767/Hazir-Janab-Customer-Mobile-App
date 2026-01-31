@@ -21,6 +21,20 @@ public class ServiceCategory_3 extends AppCompatActivity {
     NavigationView NavigationDrawer1, NavigationDrawer2;
 
     @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.service_category_3);
@@ -28,6 +42,9 @@ public class ServiceCategory_3 extends AppCompatActivity {
         drawSideBar.setup(this);
 
         ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
         ivSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

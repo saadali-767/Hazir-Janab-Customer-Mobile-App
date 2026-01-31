@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firestore.v1.Cursor;
 
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ import org.w3c.dom.Text;
 public class userProfile_6 extends AppCompatActivity {
 
     TextView tvName, tvEmail, tvPhoneNumber, tvUsername, tvPassword, tvAddress, tvDisplayName;
+    Button BtnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,17 @@ public class userProfile_6 extends AppCompatActivity {
 
         DrawSideBar drawSideBar = new DrawSideBar();
         drawSideBar.setup(this);
+        BtnNext=findViewById(R.id.BtnNext);
+        BtnNext.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(userProfile_6.this, " User Information saved ", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(userProfile_6.this, ServiceType_2.class);
+                startActivity(intent);
+
+            }
+        });
 
         ImageView ivSupport = findViewById(R.id.ivSupport);
         ivSupport.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +62,7 @@ public class userProfile_6 extends AppCompatActivity {
 
         tvDisplayName = findViewById(R.id.tvDisplayName);
         tvName = findViewById(R.id.tvName);
-        tvEmail = findViewById(R.id.tvEmail);
+        //tvEmail = findViewById(R.id.tvEmail);
         tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
         tvUsername = findViewById(R.id.tvUserName);
         tvPassword = findViewById(R.id.tvPassword);
@@ -66,7 +79,7 @@ public class userProfile_6 extends AppCompatActivity {
 
             tvDisplayName.setText(firstName); // Set first name to display name
             tvName.setText(firstName + " " + lastName); // Set full name
-            tvEmail.setText(email); // Set email
+           // tvEmail.setText(email); // Set email
             tvPhoneNumber.setText(phoneNumber); // Set phone number
             tvAddress.setText(address); // Set phone number
             tvPassword.setText(password); // Set phone number
@@ -112,7 +125,34 @@ public class userProfile_6 extends AppCompatActivity {
         TextInputEditText etInputField1 = popupView.findViewById(R.id.etInputField1);
         TextInputEditText etInputField2 = popupView.findViewById(R.id.etInputField2);
         TextInputEditText etInputField3 = popupView.findViewById(R.id.etInputField3);
+        TextInputEditText etInputField4 = popupView.findViewById(R.id.etInputField4);
+        TextInputEditText etInputField5 = popupView.findViewById(R.id.etInputField5);
         Button btnSaveBtn = popupView.findViewById(R.id.btnSave);
+
+        TextInputLayout nameinput=popupView.findViewById(R.id.name);
+        TextInputLayout emailinput=popupView.findViewById(R.id.email);
+        TextInputLayout phoneinput=popupView.findViewById(R.id.phone);
+        TextInputLayout passwordinput=popupView.findViewById(R.id.password);
+        TextInputLayout addressinput=popupView.findViewById(R.id.address);
+
+
+
+        String firstName;
+        String lastName ;
+        String email ;
+        String phoneNumber ;
+        String address ;
+        String password ;
+        JSONObject userData = UserDataSingleton.getInstance().getUserData();
+        firstName = userData.optString("First_name", ""); // Changed to "First_name"
+        lastName = userData.optString("Last_name", ""); // Changed to "Last_name"
+        email = userData.optString("Email", ""); // Changed to "Email"
+        phoneNumber = userData.optString("phone_number", ""); // "phone_number" is correct
+        address = userData.optString("address", ""); // "phone_number" is correct
+        password = userData.optString("Password", ""); // "phone_number" is correct
+
+
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(popupView);
@@ -120,15 +160,16 @@ public class userProfile_6 extends AppCompatActivity {
 
         // Set fields based on the type
         if (type.equals("userInformation")) {
+            emailinput.setVisibility(View.GONE);
+            passwordinput.setVisibility(View.GONE);
+            addressinput.setVisibility(View.GONE);
             tvPopupTitle.setText("Edit User Information");
-            etInputField1.setHint("Name");
-            etInputField2.setHint("Email");
-            etInputField3.setHint("Phone");
+            etInputField1.setText(firstName +" "+ lastName );
+            etInputField3.setText(phoneNumber);
             btnSaveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String newName = etInputField1.getText().toString();
-                    String newEmail = etInputField2.getText().toString();
                     String newPhone = etInputField3.getText().toString();
 
                     Toast.makeText(userProfile_6.this, "Changes Saved", Toast.LENGTH_SHORT).show();
@@ -141,17 +182,17 @@ public class userProfile_6 extends AppCompatActivity {
 
 
                     if (newName != null && !newName.isEmpty()) {
-                        tvName.setText(etInputField1.getText().toString()+ "!");
+                        tvName.setText(etInputField1.getText().toString());
 
                         UserDataSingleton.getInstance().updateUserData("First_name", newName.split(" ")[0]);
                         UserDataSingleton.getInstance().updateUserData("Last_name", newName.split(" ").length > 1 ? newName.split(" ")[1] : "");
                     }
 
-                    if (newEmail != null && !newEmail.isEmpty()) {
-                        UserDataSingleton.getInstance().updateUserData("Email", newEmail);
-                        tvEmail.setText(etInputField2.getText().toString());
-
-                    }
+//                    if (newEmail != null && !newEmail.isEmpty()) {
+//                        UserDataSingleton.getInstance().updateUserData("Email", newEmail);
+//                        tvEmail.setText(etInputField2.getText().toString());
+//
+//                    }
 
                     if (newPhone != null && !newPhone.isEmpty()) {
                         tvPhoneNumber.setText(etInputField3.getText().toString());
@@ -169,26 +210,30 @@ public class userProfile_6 extends AppCompatActivity {
             // Load existing user info into fields
         } else if (type.equals("accountCredentials")) {
             tvPopupTitle.setText("Edit Account Credentials");
-            etInputField1.setHint("Username");
-            etInputField2.setHint("Password");
-            etInputField3.setVisibility(View.GONE);
+            etInputField2.setText(email);
+            etInputField4.setText(password);
+            nameinput.setVisibility(View.GONE);
+            phoneinput.setVisibility(View.GONE);
+            addressinput.setVisibility(View.GONE);
+            //etInputField3.setVisibility(View.GONE);
+
 
             btnSaveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String newUsername = etInputField1.getText().toString();
-                    String newPassword = etInputField2.getText().toString();
+                    String newUsername = etInputField2.getText().toString();
+                    String newPassword = etInputField4.getText().toString();
                    // tvUsername.setText(etInputField1.getText().toString());
                     //tvPassword.setText(etInputField2.getText().toString());
 
                     if (newUsername != null && !newUsername.isEmpty()) {
-                        tvUsername.setText(etInputField1.getText().toString());
+                        tvUsername.setText(etInputField2.getText().toString());
 
                         UserDataSingleton.getInstance().updateUserData("Email", newUsername); // Assuming 'Email' is used as the usernam
 
                     }
                     if (newPassword != null && !newPassword.isEmpty()) {
-                        tvPassword.setText(etInputField2.getText().toString());
+                        tvPassword.setText(etInputField4.getText().toString());
 
                         UserDataSingleton.getInstance().updateUserData("Password", newPassword);
 
@@ -207,17 +252,20 @@ public class userProfile_6 extends AppCompatActivity {
             // Load existing account credentials
         } else if (type.equals("address")) {
             tvPopupTitle.setText("Edit Address");
-            etInputField2.setVisibility(View.GONE);
-            etInputField3.setVisibility(View.GONE);
+            nameinput.setVisibility(View.GONE);
+            emailinput.setVisibility(View.GONE);
+            phoneinput.setVisibility(View.GONE);
+            passwordinput.setVisibility(View.GONE);
+            etInputField5.setText(address);
 
             btnSaveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String newaddress = etInputField1.getText().toString();
+                    String newaddress = etInputField5.getText().toString();
 
-                    etInputField1.setHint("Address");
+                    //etInputField1.setHint("Address");
                     if (newaddress != null && !newaddress.isEmpty()) {
-                        tvAddress.setText(etInputField1.getText().toString());
+                        tvAddress.setText(etInputField5.getText().toString());
                         UserDataSingleton.getInstance().updateUserData("address", newaddress);
                         UserDataSingleton userDataSingleton = UserDataSingleton.getInstance();
                         JSONObject userData = userDataSingleton.getUserData();

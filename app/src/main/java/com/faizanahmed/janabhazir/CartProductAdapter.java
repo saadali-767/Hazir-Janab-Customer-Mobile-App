@@ -74,6 +74,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                                 // Notify the adapter of the item removed
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, productList.size());
+                                activity.initializeProductList();
                             }
                         })
                         .setNegativeButton("Cancel", null)

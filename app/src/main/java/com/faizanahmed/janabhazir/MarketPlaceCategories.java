@@ -13,6 +13,20 @@ import android.widget.Toast;
 public class MarketPlaceCategories extends AppCompatActivity {
 
     @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_place_categories);
@@ -20,14 +34,18 @@ public class MarketPlaceCategories extends AppCompatActivity {
         drawSideBar.setup(this);
 
         ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
         ivSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MarketPlaceCategories.this, "Support", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MarketPlaceCategories.this, Support_11.class);
+                Toast.makeText(MarketPlaceCategories.this, "Cart", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MarketPlaceCategories.this, YourCart.class);
                 startActivity(intent);
             }
         });
+
 
         //get attributes that were passed through an intent
         String serviceType = getIntent().getStringExtra("serviceType");

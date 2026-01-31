@@ -96,7 +96,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     // SQL statement to create a user table
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_USER + "(" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_ID + " INTEGER ," +
                     COLUMN_FIRST_NAME + " TEXT, " +
                     COLUMN_LAST_NAME + " TEXT, " +
                     COLUMN_EMAIL + " TEXT, " +
@@ -152,7 +152,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
                 TABLE_USER,
-                new String[]{COLUMN_FIRST_NAME, COLUMN_LAST_NAME, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_PROFILE_PIC, COLUMN_ADDRESS, COLUMN_PHONE_NUMBER},
+                new String[]{COLUMN_ID,COLUMN_FIRST_NAME, COLUMN_LAST_NAME, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_PROFILE_PIC, COLUMN_ADDRESS, COLUMN_PHONE_NUMBER},
                 null, // Selection
                 null, // Selection Args
                 null, // Group By

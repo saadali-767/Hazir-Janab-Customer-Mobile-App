@@ -18,6 +18,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class serviceDetails extends AppCompatActivity {
  TextView tvProviderName;
+
+    @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +40,9 @@ public class serviceDetails extends AppCompatActivity {
         drawSideBar.setup(this);
 
         ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
          tvProviderName = findViewById(R.id.tvProviderName);
 
         ivSupport.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +64,7 @@ public class serviceDetails extends AppCompatActivity {
         String serviceVideoUrl = getIntent().getStringExtra("serviceVideoUrl");
         String serviceType = getIntent().getStringExtra("serviceType");
         String vendor_name = getIntent().getStringExtra("vendor_name");
+        Integer vendor_id = Integer.valueOf(getIntent().getStringExtra("vendor_id"));
 
         Log.d("2", "Service ID: " + serviceId);
         Log.d("IntentData", "Service Name: " + serviceName);
@@ -135,6 +153,7 @@ public class serviceDetails extends AppCompatActivity {
                         break;
                 }
                 //pass all the details to next activity
+                intent.putExtra("vendor_id",vendor_id);
                 intent.putExtra("serviceId", serviceId);
                 intent.putExtra("serviceName", serviceName);
                 intent.putExtra("serviceHourlyRate", serviceHourlyRate);

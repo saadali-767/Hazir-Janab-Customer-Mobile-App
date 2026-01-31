@@ -22,12 +22,38 @@ public class ProductDetails extends AppCompatActivity {
 
     ImageView ivServiceImage;
     TextView tvServiceName, tvServiceDescription, tvServicePrice, tvServiceAvailability;
+
+    @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+        // Your code to update the ivSupport ImageView
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty()){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        } else {
+            // You can set a default image if the conditions are not met
+            ivSupport.setImageResource(R.drawable.ic_cart); // Assuming you have an 'emptycart' drawable
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
         Intent intent = getIntent();
+        ImageView ivSupport = findViewById(R.id.ivSupport);
+        if(bookingdataholder.isBookingInstanceValid() || !productordersdataholder.getOrderList().isEmpty() ){
+            ivSupport.setImageResource(R.drawable.fullcart);
+        }
+        ivSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(SearchAllServices.this, "Support", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ProductDetails.this, Support_11.class);
+                startActivity(intent);
+            }
+        });
 
         // Retrieve the data
         Integer productId = getIntent().getIntExtra("productId", -100);

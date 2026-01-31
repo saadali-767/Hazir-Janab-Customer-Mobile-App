@@ -62,12 +62,12 @@ public class VendorAdapter extends RecyclerView.Adapter<VendorAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Vendor vendor = vendorList.get(position);
-        holder.vendorName.setText(vendor.getName());
+        holder.vendorName.setText(vendor.getFirst_name());
         holder.ratingBarTimeliness.setRating(vendor.getAverageTimelinessScore());
         holder.ratingBarQuality.setRating(vendor.getAverageQualityOfServiceScore());
         holder.ratingBarExpertise.setRating(vendor.getAverageExpertiseScore());
         holder.text_vendor_occupation.setText(serviceCategory);
-        String imageName = "ic_vendor"+vendor.getName().toLowerCase(); // Convert to lower case
+        String imageName = "ic_vendor"+vendor.getFirst_name().toLowerCase(); // Convert to lower case
 
         //Toast.makeText(mContext, "Image name: " + imageName, Toast.LENGTH_SHORT).show();
         int imageResId = mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
@@ -81,12 +81,17 @@ public class VendorAdapter extends RecyclerView.Adapter<VendorAdapter.ViewHolder
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext,serviceDetails.class); // Replace DetailActivity with the actual Activity class you want to navigate to
-            intent.putExtra("vendor_name", vendorList.get(position).getName()); // Assuming there's an ID or some identifier for each vendor
+            intent.putExtra("vendor_id", vendorList.get(position).getID()); // Assuming there's an ID or some identifier for each vendor
+            intent.putExtra("vendor_name", vendorList.get(position).getFirst_name()); // Assuming there's an ID or some identifier for each vendor
+
             intent.putExtra("serviceId", serviceId);
             intent.putExtra("serviceName", serviceName);
             intent.putExtra("serviceCity", serviceCity);
             intent.putExtra("serviceDescription", serviceDescription);
             intent.putExtra("serviceHourlyRate", serviceHourlyRate);
+            Log.d("VendorAdapter", "serviceType before intent: " + serviceType);
+            intent.putExtra("serviceType", serviceType);
+
             intent.putExtra("serviceType", serviceType);
             intent.putExtra("serviceImageUrl",serviceImageUrl);
             intent.putExtra("serviceCategory",serviceCategory);
@@ -96,6 +101,8 @@ public class VendorAdapter extends RecyclerView.Adapter<VendorAdapter.ViewHolder
             Log.d("intent being sent from vendor  search", "Service Hourly Rate: " + serviceHourlyRate);
             Log.d("intent being sent from vendor  search", "Service Description: " + serviceDescription);
             Log.d("intent being sent from vendor  search", "Service City: " + serviceCity);
+            Log.d("intent being sent from vendor ", "serviceType " + serviceType);
+
             mContext.startActivity(intent);
         });
 

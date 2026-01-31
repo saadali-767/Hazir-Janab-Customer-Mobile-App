@@ -3,12 +3,14 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">172.16.62.190</domain>
         <!-- Add other domains as needed -->
-        <domain includeSubdomains="true">172.17.68.79</domain>
-        <domain includeSubdomains="true">172.16.63.247</domain>
+        <domain includeSubdomains="true">172.17.43.199</domain>
+        <domain includeSubdomains="true">192.168.137.90</domain>
         <domain includeSubdomains="true">192.168.100.33</domain>
-    <domain includeSubdomains="true">172.17.44.15</domain>
-        <domain includeSubdomains="true">172.17.68.86</domain>
-        <domain includeSubdomains="true">192.168.18.105</domain>
-        <domain includeSubdomains="true">192.168.43.112</domain>
+    <domain includeSubdomains="true">192.168.57.112</domain>
+        <domain includeSubdomains="true">172.16.56.204</domain>
+        <domain includeSubdomains="true">127.0.0.1:5000</domain>
+        <domain includeSubdomains="true">192.168.141.107</domain>
+        <domain includeSubdomains="true">172.17.45.36</domain>
+
     </domain-config>
 </network-security-config>
